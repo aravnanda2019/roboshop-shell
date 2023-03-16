@@ -2,13 +2,13 @@ source common.sh
 
 print_head "configuring nodejs repo "
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log_file}
- status_check $?
+status_check $?
 
 print_head "Installaling nodejs "
 yum install nodejs -y &>>${log_file}
 status_check $?
 
-print_head "created new user Roboshop"
+print_head "Create Roboshop new User"
 useradd roboshop &>>${log_file}
 status_check $?
 
@@ -23,8 +23,8 @@ status_check $?
 print_head "Downloading  app content"
 curl -L -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>>${log_file}
 status_check $?
-
 cd /app
+
 print_head "Extracting App Content "
 unzip /tmp/catalogue.zip &>>${log_file}
 status_check $?
@@ -37,11 +37,9 @@ print_head "copy SystemD service file "
 cp ${code_dir}/configs/catalogue.service /etc/systemd/system/catalogue.service &>>${log_file}
 status_check $?
 
-
 print_head "reloading SystemD "
 systemctl daemon-reload &>>${log_file}
 status_check $?
-
 
 print_head "enable catalogue Service"
 systemctl enable catalogue &>>${log_file}
