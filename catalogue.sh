@@ -24,7 +24,7 @@ unzip /tmp/catalogue.zip &>>${log_file}
 
 print_head "Installaling NodeJs Dependencies "
 npm install &>>${log_file}
-status_check $?
+
 
 print_head "copy SystemD service file "
 cp ${code_dir}/configs/catalogue.service /etc/systemd/system/catalogue.service &>>${log_file}
