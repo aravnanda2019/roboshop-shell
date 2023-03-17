@@ -1,6 +1,8 @@
 source common.sh
+
 component=catalogue
-NODEJS
+schema_type="mongo"
+nodejs
 #print_head "configuring nodejs repo "
 #curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log_file}
 #status_check $?

@@ -5,6 +5,7 @@ rm -f ${log_file}
 print_head() {
   echo -e "\e[36m$1\e[0m"
 }
+
 status_check() {
   if [ $1 -eq 0 ]; then
     echo SUCCESS
@@ -15,8 +16,23 @@ status_check() {
   fi
 }
 
+schema_setup() {
+if [ "${schema_type}" == "mongo" ]; then
+  print_head "copy Mongodb Repo file "
+  cp ${code_dir}/configs/mongodb.repo /etc/yum.repos.d/mongo.repo &>>${log_file}
+  status_check $?
 
-NODEJS() {
+  print_head "Installaling mongo Client "
+  yum install mongodb-org-shell -y &>>${log_file}
+  status_check $?
+
+  print_head "Loading mongodb schema  "
+  mongo --host mongodb.d-b-7.online </app/schema/${component}.js &>>${log_file}
+  status_check $?
+fi
+}
+
+nodejs() {
   print_head "configuring nodejs repo "
   curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log_file}
   status_check $?
@@ -71,16 +87,5 @@ NODEJS() {
   systemctl restart ${component} &>>${log_file}
   status_check $?
 
-  print_head "copy Mongodb Repo file "
-  cp ${code_dir}/configs/mongodb.repo /etc/yum.repos.d/mongo.repo &>>${log_file}
-  status_check $?
-
-  print_head "Installaling mongo Client "
-  yum install mongodb-org-shell -y &>>${log_file}
-  status_check $?
-
-  print_head "Loading mongodb schema  "
-  mongo --host mongodb.d-b-7.online </app/schema/${component}.js &>>${log_file}
-  status_check $?
-
+  schema_setup
 }
