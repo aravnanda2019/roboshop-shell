@@ -15,8 +15,10 @@ if [ $? -ne 0 ]; then
 fi
 status_check $?
 
-print_head "Created application Directory "
-mkdir /app &>>${log_file}
+print_head "Creat Application Directory "
+if [ ! -d /app ]; then
+ mkdir /app &>>${log_file}
+fi
 status_check $?
 
 print_head "Removing Old Files "
