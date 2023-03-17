@@ -50,7 +50,7 @@ if [ "${schema_type}" == "mongo" ]; then
   status_check $?
 elif [ "${schema_type}" == "mysql" ]; then
     print_head "Install MySQL Client"
-    yum install mysql -y
+    yum install mysql -y &>>${log_file}
     status_check $?
 
     print_head "Load Schema"
