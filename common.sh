@@ -145,3 +145,27 @@ python() {
   systemd_setup
 }
 
+golang() {
+  print_head "Install Golang"
+  yum install golang -y &>>${log_file}
+  status_check $?
+
+  app_prereq_setup
+
+  print_head "Load the Dependencies and Build the software"
+  cd /app &>>${log_file}
+  go mod init dispatch &>>${log_file}
+  go get &>>${log_file}
+  go build &>>${log_file}
+  status_check $?
+
+  systemd_setup
+
+  print_head "Enable Dispatch Service"
+  systemctl enable dispatch &>>${log_file}
+
+  print_head "Start the Dispatch Service"
+  systemctl start dispatch &>>${log_file}
+}
+
+
