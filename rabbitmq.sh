@@ -30,7 +30,7 @@ print_head "Add Application User"
 rabbitmqctl list_users | grep roboshop &>>${log_file}
 if [ $? -ne 0 ]; then
  rabbitmqctl add_user roboshop ${roboshop_app_password} &>>${log_file}
-fi  
+fi
 status_check $?
 #rabbitmqctl set_user_tags roboshop administrator
 
